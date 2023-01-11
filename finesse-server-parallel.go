@@ -347,9 +347,13 @@ func (f *FinesseServer) parallelProcessingWithState(fn func(agentName string, fo
 	success := 0
 	for range f.agents {
 		r := <-c
-		status = append(status, r.agentResponse)
-		if r.requestError == nil {
-			success++
+		if r.agentResponse != nil {
+			status = append(status, r.agentResponse)
+			if r.requestError == nil {
+				success++
+			}
+		} else if r.requestError != nil {
+			log.WithFields(log.Fields{logProc: mainName, logServer: f.name}).Error(r.requestError)
 		}
 	}
 	close(c)
