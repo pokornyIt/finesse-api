@@ -1,0 +1,28 @@
+<!-- error invalid device -->
+<message from="pubsub.c01-finesse-b.devlab.zoomint.com" to="6021@c01-finesse-b.devlab.zoomint.com" id="4WNIBzEW">
+    <event xmlns="http://jabber.org/protocol/pubsub#event">
+        <items node="/finesse/api/User/6021">
+            <item id="a6ca891f-8b34-443f-8c7d-dac020d41838387">
+                <notification xmlns="urn:xmpp:push:0">
+&lt;Update&gt;
+  &lt;data&gt;
+    &lt;apiErrors&gt;
+      &lt;apiError&gt;
+        &lt;peripheralErrorCode&gt;10125&lt;/peripheralErrorCode&gt;
+        &lt;errorType&gt;Invalid Device&lt;/errorType&gt;
+        &lt;errorMessage&gt;CF_INVALID_LOGON_DEVICE_SPECIFIED&lt;/errorMessage&gt;
+        &lt;peripheralErrorText&gt;A device target with the network target ID specified cannot be found. This could indicate either an internal error or a configuration error&lt;/peripheralErrorText&gt;
+        &lt;peripheralErrorMsg&gt;PERERR_TELDRIVE_NODEVICETARGETFORNETTARGETID&lt;/peripheralErrorMsg&gt;
+        &lt;errorData&gt;260&lt;/errorData&gt;
+      &lt;/apiError&gt;
+    &lt;/apiErrors&gt;
+  &lt;/data&gt;
+  &lt;requestId&gt;&lt;/requestId&gt;
+  &lt;source&gt;/finesse/api/User/6021&lt;/source&gt;
+  &lt;event&gt;put&lt;/event&gt;
+&lt;/Update&gt;
+                </notification>
+            </item>
+        </items>
+    </event>
+</message>

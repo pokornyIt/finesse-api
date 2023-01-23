@@ -9,26 +9,19 @@ import (
 	"time"
 )
 
-// FinesseRequest Structure for one API request
-type FinesseRequest struct {
-	id      string
-	client  *http.Client
-	server  *FinesseServer
-	request *http.Request
+// AgentRequest Structure for one API request
+type AgentRequest struct {
+	id        string
+	loginName string
+	password  string
+	line      string
+	client    *http.Client
+	server    *Server
+	request   *http.Request
 }
 
-func newFinesseRequest(server *FinesseServer) *FinesseRequest {
-	r := FinesseRequest{
-		id:      randomString(),
-		client:  server.client,
-		server:  server,
-		request: nil,
-	}
-	log.WithFields(log.Fields{logProc: "NewRequest", logId: r.id, logServer: r.server.name}).Tracef("prepare new request for server [%s]", server.name)
-	return &r
-}
-
-func (f *FinesseRequest) setHeader(agent *FinesseAgent) {
+// setHeader create request header
+func (f *AgentRequest) setHeader() {
 	if f.request.Method != "GET" {
 		f.request.Header.Set("Content-Type", "application/xml")
 	}
@@ -38,10 +31,11 @@ func (f *FinesseRequest) setHeader(agent *FinesseAgent) {
 	//f.request.Header.Set("Pragma", "no-cache")
 	f.request.Header.Set("RequestId", f.id)
 	f.request.Host = f.server.name
-	f.request.SetBasicAuth(agent.LoginName, agent.Password)
+	f.request.SetBasicAuth(f.loginName, f.password)
 }
 
-func (f *FinesseRequest) httpClient() {
+// httpClient prepare httpClient for request
+func (f *AgentRequest) httpClient() {
 	if f.client == nil {
 		tr := &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -51,21 +45,40 @@ func (f *FinesseRequest) httpClient() {
 	}
 }
 
-func (f *FinesseRequest) doRequest(method string, url string, agent *FinesseAgent, data []byte) *FinesseResponse {
+// doRequest process one request
+func (f *AgentRequest) doRequest(method string, url string, data []byte) *AgentResponse {
 	log.WithFields(log.Fields{logProc: "doRequest", logId: f.id, logRequestType: method, logBody: string(data)}).Tracef("start process request [%s %s]", method, url)
 	request, err := http.NewRequest(method, url, bytes.NewBuffer(data))
 	if err != nil {
 		log.WithFields(log.Fields{logProc: "doRequest", logId: f.id}).Errorf(
-			"problem create [%s %s] request for [%s] agent with error %s", method, url, agent.LoginName, err)
+			"problem create [%s %s] request for [%s] agent with error %s", method, url, f.loginName, err)
 	}
 	f.request = request
-	f.setHeader(agent)
+	f.setHeader()
 	f.httpClient()
 	resp, err := f.client.Do(f.request)
 	if err != nil {
 		r := fmt.Sprintf("problem request [%s %s]", f.request.Method, f.request.URL)
 		log.WithFields(log.Fields{logProc: "doRequest", logId: f.id}).Error(r)
-		return f.NewFinesseResponse(resp, err, r)
+		return f.newResponse(resp, err, r)
 	}
-	return f.NewFinesseResponse(resp, nil, "")
+	return f.newResponse(resp, nil, "")
+}
+
+// newResponse Create new response structure
+func (f *AgentRequest) newResponse(response *http.Response, e error, message string) *AgentResponse {
+	r := new(AgentResponse)
+	r.id = f.id
+	r.response = response
+	r.err = e
+	r.lastMessage = message
+	if response != nil {
+		r.statusCode = response.StatusCode
+		r.statusMessage = response.Status
+	} else {
+		r.statusCode = 500
+		r.statusMessage = "500 Problem Connect to server"
+	}
+	log.WithFields(log.Fields{logProc: "NewResponse", logId: r.id}).Tracef("response with status [%s]", r.statusMessage)
+	return r
 }

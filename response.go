@@ -7,8 +7,8 @@ import (
 	"net/http"
 )
 
-// FinesseResponse Structure for one API response
-type FinesseResponse struct {
+// AgentResponse Structure for one API response
+type AgentResponse struct {
 	id            string
 	response      *http.Response
 	err           error
@@ -18,25 +18,7 @@ type FinesseResponse struct {
 	statusMessage string
 }
 
-// NewFinesseResponse Create new response structure
-func (f *FinesseRequest) NewFinesseResponse(response *http.Response, e error, message string) *FinesseResponse {
-	r := new(FinesseResponse)
-	r.id = f.id
-	r.response = response
-	r.err = e
-	r.lastMessage = message
-	if response != nil {
-		r.statusCode = response.StatusCode
-		r.statusMessage = response.Status
-	} else {
-		r.statusCode = 500
-		r.statusMessage = "500 Problem Connect to server"
-	}
-	log.WithFields(log.Fields{logProc: "NewFinesseResponse", logId: r.id}).Tracef("response with status [%s]", r.statusMessage)
-	return r
-}
-
-func (f *FinesseResponse) close() {
+func (f *AgentResponse) close() {
 	if f.response != nil {
 		if f.response.Body != nil {
 			_ = f.response.Body.Close()
@@ -45,7 +27,7 @@ func (f *FinesseResponse) close() {
 	}
 }
 
-func (f *FinesseResponse) responseError() (string, error) {
+func (f *AgentResponse) responseError() (string, error) {
 	if f.statusCode >= 200 && f.statusCode <= 299 {
 		return "", nil
 	}
@@ -56,7 +38,7 @@ func (f *FinesseResponse) responseError() (string, error) {
 }
 
 // GetResponseBody Read API response body
-func (f *FinesseResponse) GetResponseBody() string {
+func (f *AgentResponse) GetResponseBody() string {
 	if f.response == nil {
 		return f.body
 	}
@@ -67,7 +49,7 @@ func (f *FinesseResponse) GetResponseBody() string {
 	return f.body
 }
 
-func (f *FinesseResponse) responseReturnData() error {
+func (f *AgentResponse) responseReturnData() error {
 	log.WithFields(log.Fields{logProc: "responseReturnData", logId: f.id, logHttpStatus: f.response.Status}).
 		Debugf("response status is [%s]", f.response.Status)
 	bodies, err := io.ReadAll(f.response.Body)
