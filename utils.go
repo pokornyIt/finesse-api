@@ -15,9 +15,8 @@ const (
 )
 
 var (
-	src            = rand.NewSource(time.Now().UnixNano()) // randomize base string
-	maxRandomSize  = 10                                    // required size of random string
-	shortBodyChars = 120                                   // Max length print from string
+	src           = rand.NewSource(time.Now().UnixNano()) // randomize base string
+	maxRandomSize = 10                                    // required size of random string
 )
 
 func randomString() string {

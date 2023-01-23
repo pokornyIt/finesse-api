@@ -137,6 +137,7 @@ func (a *Agent) StartXmpp() error {
 		Insecure: a.server.ignore,
 	}
 
+	//goland:noinspection HttpUrlsUsage
 	stanza.TypeRegistry.MapExtension(stanza.PKTMessage, xml.Name{Space: "http://jabber.org/protocol/pubsub#event", Local: "event"}, stanza.PubSubEvent{})
 	router := xmpp.NewRouter()
 	//router.HandleFunc("message", a.messageHandler)
