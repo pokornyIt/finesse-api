@@ -19,8 +19,8 @@ type userStateRequest struct {
 	State   string   `xml:"state"`
 }
 
-// userNotReadyWithReasonRequest structure for agent logout
-type userNotReadyWithReasonRequest struct {
+// userStateWithReasonRequest structure for agent logout
+type userStateWithReasonRequest struct {
 	XMLName      xml.Name `xml:"User"`
 	Text         string   `xml:",chardata"`
 	State        string   `xml:"state"`
@@ -47,11 +47,10 @@ func (u *userStateRequest) getUserRequest() ([]byte, error) {
 	return data, nil
 }
 
-func (u *userNotReadyWithReasonRequest) getUserRequest() ([]byte, error) {
+func (u *userStateWithReasonRequest) getUserRequest() ([]byte, error) {
 	data, err := xml.Marshal(u)
 	if err != nil {
 		return nil, err
 	}
 	return data, nil
 }
-

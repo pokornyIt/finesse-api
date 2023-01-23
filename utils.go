@@ -15,9 +15,8 @@ const (
 )
 
 var (
-	src            = rand.NewSource(time.Now().UnixNano()) // randomize base string
-	maxRandomSize  = 10                                    // required size of random string
-	shortBodyChars = 120                                   // Max length print from string
+	src           = rand.NewSource(time.Now().UnixNano()) // randomize base string
+	maxRandomSize = 10                                    // required size of random string
 )
 
 func randomString() string {
@@ -41,14 +40,18 @@ func randomString() string {
 
 // ValidServerNameIp Validate if string is valid IPv4 address, hostname or FQDN
 func ValidServerNameIp(srv string) bool {
-	ipAddress := regexp.MustCompile(`^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`)
 	invalidAddress := regexp.MustCompile(`^((\d+)\.){3}(\d+)$`)
 	dnsName := regexp.MustCompile(`^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$`)
-	if ipAddress.MatchString(srv) {
+	if validIpAddress(srv) {
 		return true
 	}
 	if invalidAddress.MatchString(srv) {
 		return false
 	}
 	return dnsName.MatchString(srv)
+}
+
+func validIpAddress(srv string) bool {
+	ipAddress := regexp.MustCompile(`^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`)
+	return ipAddress.MatchString(srv)
 }

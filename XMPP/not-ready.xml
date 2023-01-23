@@ -1,0 +1,50 @@
+<!-- success not-ready -->
+<message from="pubsub.c01-finesse-b.devlab.zoomint.com" to="6021@c01-finesse-b.devlab.zoomint.com" id="Ev58lXZj">
+    <event xmlns="http://jabber.org/protocol/pubsub#event">
+        <items node="/finesse/api/User/6021">
+            <item id="a6ca891f-8b34-443f-8c7d-dac020d41838350">
+                <notification xmlns="urn:xmpp:push:0">
+&lt;Update&gt;
+  &lt;data&gt;
+    &lt;user&gt;
+      &lt;dialogs&gt;/finesse/api/User/6021/Dialogs&lt;/dialogs&gt;
+      &lt;extension&gt;2830&lt;/extension&gt;
+      &lt;firstName&gt;LPU&lt;/firstName&gt;
+      &lt;lastName&gt;Test 21&lt;/lastName&gt;
+      &lt;loginId&gt;6021&lt;/loginId&gt;
+      &lt;loginName&gt;lpu_test_21&lt;/loginName&gt;
+      &lt;mediaType&gt;1&lt;/mediaType&gt;
+      &lt;pendingState&gt;&lt;/pendingState&gt;
+      &lt;reasonCodeId&gt;-1&lt;/reasonCodeId&gt;
+      &lt;roles&gt;
+        &lt;role&gt;Agent&lt;/role&gt;
+        &lt;role&gt;Supervisor&lt;/role&gt;
+      &lt;/roles&gt;
+      &lt;settings&gt;
+        &lt;wrapUpOnIncoming&gt;OPTIONAL&lt;/wrapUpOnIncoming&gt;
+        &lt;wrapUpOnOutgoing&gt;OPTIONAL&lt;/wrapUpOnOutgoing&gt;
+      &lt;/settings&gt;
+      &lt;state&gt;NOT_READY&lt;/state&gt;
+      &lt;stateChangeTime&gt;2023-01-13T11:21:47.026Z&lt;/stateChangeTime&gt;
+      &lt;teamId&gt;5005&lt;/teamId&gt;
+      &lt;teamName&gt;LPU_test&lt;/teamName&gt;
+      &lt;teams&gt;
+        &lt;Team&gt;
+          &lt;id&gt;5005&lt;/id&gt;
+          &lt;name&gt;LPU_test&lt;/name&gt;
+          &lt;uri&gt;/finesse/api/Team/5005&lt;/uri&gt;
+        &lt;/Team&gt;
+      &lt;/teams&gt;
+      &lt;uri&gt;/finesse/api/User/6021&lt;/uri&gt;
+      &lt;wrapUpTimer&gt;7200&lt;/wrapUpTimer&gt;
+    &lt;/user&gt;
+  &lt;/data&gt;
+  &lt;event&gt;PUT&lt;/event&gt;
+  &lt;requestId&gt;&lt;/requestId&gt;
+  &lt;source&gt;/finesse/api/User/6021&lt;/source&gt;
+&lt;/Update&gt;
+                </notification>
+            </item>
+        </items>
+    </event>
+</message>
